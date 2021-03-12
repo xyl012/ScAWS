@@ -1,16 +1,21 @@
 Package: ScAWS
-Title: What the Package Does (One Line, Title Case)
+Title: Demonstration for working with single cell rna sequencing on AWS
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
+    person(given = "Chris",
+           family = "Sugai",
+           role = c("Technician"),
            email = "first.last@example.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: Demonstration for working with single cell rna sequencing on AWS.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Depends: 
+    R (>= 2.10)
