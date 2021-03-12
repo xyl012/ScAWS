@@ -4,10 +4,10 @@ Version: 0.0.0.9000
 Authors@R: 
     c(person(given = "Chris",
            family = "Sugai",
-           role = c("technician"),
+           role = c("aut", "cre"),
            email = "csugai@hawaii.edu"
            ))
-Author: Chris Sugai [technician]
+Author: Chris Sugai [aut, cre]
 Maintainer: Chris Sugai <csugai@hawaii.edu>
 Description: Demonstration for working with single cell rna sequencing on AWS.
 License: `use_mit_license()`
@@ -15,6 +15,9 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Imports:
+    Seurat (>= 4.0.0)
+    Cowplot (>= 1.1.1)
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
