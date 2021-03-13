@@ -1,4 +1,6 @@
-#Makes a seurat object from a star matrix. Input is from make_star_matrix() and reference is chosen from SingleR references.
+#' Makes a seurat object from a star matrix. Input is from make_star_matrix() and reference is chosen from SingleR references.
+#' @export
+
 make_seurat_object=function(star_matrix, ref){
   colnames(star_matrix)=gsub("-1","",colnames(star_matrix))
   y=Seurat::CreateSeuratObject(counts = star_matrix, min.cells = 3) #

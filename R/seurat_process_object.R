@@ -1,4 +1,6 @@
-# Process a Seurat object with specified dimensions and principal components
+#' Process a Seurat object with specified dimensions and principal components
+#'
+#' @export
 
 seurat_process_object=function(seurat_object, dims, npcs){
   # Run the standard workflow for visualization and clustering

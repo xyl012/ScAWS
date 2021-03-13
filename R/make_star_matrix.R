@@ -1,4 +1,6 @@
-#Takes the output from a STAR Single Cell quantification and generates a matrix in memory
+#' Takes the output from a STAR Single Cell quantification and generates a matrix in memory
+#' @export
+
 make_star_matrix=function(mtx_stardir){
   barcodes=readr::read_tsv(paste0(mtx_stardir,"/","barcodes.tsv"), col_names = F)
   barcodes=as.character(unlist(barcodes))

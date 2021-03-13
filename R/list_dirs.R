@@ -1,3 +1,6 @@
+#' List the directories in the path
+#' @export
+
 list_dirs <- function(path=".", pattern=NULL, all.dirs=FALSE,
                       full.names=FALSE, ignore.case=FALSE) {
   # use full.names=TRUE to pass to file.info

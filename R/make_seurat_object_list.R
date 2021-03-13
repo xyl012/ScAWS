@@ -1,4 +1,6 @@
-#Makes a list of seurat objects. Input is from make_star_matrix() and reference is chosen from SingleR references.
+#' Makes a list of seurat objects. Input is from make_star_matrix() and reference is chosen from SingleR references.
+#' @export
+
 make_seurat_object_list=function(matlist, ref){
   for (i in 1:length(matlist)){
     colnames(matlist[[i]])=gsub("-1","",colnames(matlist[[i]]))
