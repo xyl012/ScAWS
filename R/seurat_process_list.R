@@ -2,7 +2,7 @@
 seurat_process_list=function(seurat_object_list){
   seurat_processed_list=list()
   for (i in 1:length(seurat_object_list)){
-    seurat_processed_list[[i]]=seurat_process(seurat_object_list[[i]])
+    seurat_processed_list[[i]]=seurat_process_object(seurat_object_list[[i]])
   }
-  seurat_processed_list
+  return(seurat_processed_list)
 }
