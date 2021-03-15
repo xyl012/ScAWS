@@ -1,5 +1,5 @@
 #' Intakes a path for an SRR_Acc_List.txt file from SRA and downloads the files into a destination directory
-#' @export
+# Don't export as doesn't work, as sra has non uniform download links
 
 sra_download = function(SRR_Acc_List, destination_directory){
   top_url="https://trace.ncbi.nlm.nih.gov/Traces/sra?run="
