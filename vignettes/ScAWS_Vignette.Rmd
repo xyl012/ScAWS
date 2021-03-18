@@ -17,21 +17,16 @@ knitr::opts_chunk$set(
 In this vignette, we have set up the instance, run our setup and generated count matrices. We now use 
 
 ```{r setup}
+#sessionInfo()
 library(ScAWS)
-
 grey="grey"
-pal=get_palette("npg", k=40)
+pal=ggpubr::get_palette("npg", k=40)
 grey_pal=c("grey", pal[1])
 bi=pal[c(2,5)]
 
-#devtools::install_github(repo = "mojaveazure/loomR", ref = "develop")
-
-ref=MonacoImmuneData()
-
-#sessionInfo()
+ref=SingleR::MonacoImmuneData()
 set.seed(1)
-library(future)
-plan("multiprocess", workers = 31)
+future::plan("multiprocess", workers = parallel::detectCores())
 options(future.globals.maxSize = 4000 * 1024^2)
 ```
 

@@ -20,6 +20,7 @@ Imports:
     Seurat,
     scuttle,
     SingleR,
+    celldex,
     DropletUtils,
     Matrix,
     ggplot2,
