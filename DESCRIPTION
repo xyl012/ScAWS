@@ -24,6 +24,12 @@ Imports:
     Matrix,
     ggplot2,
     readr,
+    ggpubr,
+    ggsci,
+    future,
+    patchwork,
+    plotly,
+    AnnotationHub,
     spatstat
 Suggests: 
     rmarkdown,
