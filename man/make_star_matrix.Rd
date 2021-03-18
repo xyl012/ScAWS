@@ -4,7 +4,7 @@
 \alias{make_star_matrix}
 \title{Takes the output from a STAR Single Cell quantification and generates a matrix in memory}
 \usage{
-make_star_matrix(mtx_stardir)
+make_star_matrix(star_matrix_directory, matrix_type)
 }
 \description{
 Takes the output from a STAR Single Cell quantification and generates a matrix in memory

@@ -1,0 +1,34 @@
+---
+title: "Single Cell on AWS (ScAWS)"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ScAWS_Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In this vignette, we have set up the instance, run our setup and generated count matrices. We now use 
+
+```{r setup}
+library(ScAWS)
+```
+
+```{r}
+setwd("~/Desktop/data/")
+# Lists sample directories generated with STAR
+dirs=list_dirs("~/Desktop/data/")
+
+# Filtered or raw UMI counts are located in the STAR directory {sample}/Solo.out/Gene/filtered or {sample}/Solo.out/Gene/raw, respectively.
+star_matrix_list=make_star_matrix_list(dirs, matrix_type = "filtered")
+
+#seurat_object_list=make_seurat_object_list(star_matrix_list)
+
+```
+
