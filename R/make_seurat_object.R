@@ -1,7 +1,7 @@
 #' Makes a seurat object from a star matrix. Input is from make_star_matrix() and reference is chosen from SingleR references.
 #' @export
 
-make_seurat_object=function(star_matrix, ref){
+make_seurat_object=function(star_matrix, singler_ref, singler_labels){
   colnames(star_matrix)=gsub("-1","",colnames(star_matrix))
   y=Seurat::CreateSeuratObject(counts = star_matrix, min.cells = 3) #
   sce_y=Seurat::as.SingleCellExperiment(y)
@@ -10,7 +10,7 @@ make_seurat_object=function(star_matrix, ref){
   sce_y=sce_y[,!qcfilter$discard]
   sce_y=scuttle::logNormCounts(sce_y)
   print(summary(qcfilter$discard))
-  pred=SingleR::SingleR(test=sce_y, ref=ref, labels=ref$label.fine)
+  pred=SingleR::SingleR(test=sce_y, ref=singler_ref, labels=singler_labels)
   y=Seurat::as.Seurat(sce_y)
   pred=gsub(" cells","",pred$labels, fixed = T)
   y$celltype=pred

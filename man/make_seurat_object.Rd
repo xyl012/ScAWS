@@ -4,7 +4,7 @@
 \alias{make_seurat_object}
 \title{Makes a seurat object from a star matrix. Input is from make_star_matrix() and reference is chosen from SingleR references.}
 \usage{
-make_seurat_object(star_matrix, ref)
+make_seurat_object(star_matrix, singler_ref, singler_labels)
 }
 \description{
 Makes a seurat object from a star matrix. Input is from make_star_matrix() and reference is chosen from SingleR references.
