@@ -32,7 +32,6 @@ Imports:
     plotly,
     AnnotationHub,
     spatstat
-    
 Suggests: 
     rmarkdown,
     knitr,

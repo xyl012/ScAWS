@@ -39,10 +39,12 @@ dirs=list_dirs("~/Desktop/data/")
 #star_matrix_list=make_star_matrix_list(dirs, matrix_type = "filtered")
 #seurat_object_list=make_seurat_object_list(star_matrix_list, singler_ref=ref, singler_labels=ref$label.main)
 #seurat_object_list=seurat_process_list(seurat_object_list)
-
+#integrated_seurat_object=integrate_seurat_object_list(seurat_object_list, npcs=30, dims=30)
 ```
 
 ```{r}
-
+#p1=DimPlot(integrated_seurat_object, reduction = "umap", group.by = "stim")
+#p2=DimPlot(integrated_seurat_object, reduction = "umap", label = TRUE, repel = TRUE)
+#p1 + p2
 ```
 
