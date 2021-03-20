@@ -7,6 +7,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+#control vs disease condition: paper ppt slide
+#Bullet list of whow and what using
+#uml of what's happening with scaws image - fastqc figures
+#scaws vignette <it's what we're reading>
+#figures/shiny/findings
+#reproducible images, shippable/easy hosting package and apps, github, cost
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -37,14 +44,20 @@ dirs=list_dirs("~/Desktop/data/")
 
 # Filtered or raw UMI counts are located in the STAR directory {sample}/Solo.out/Gene/filtered or {sample}/Solo.out/Gene/raw, respectively.
 #star_matrix_list=make_star_matrix_list(dirs, matrix_type = "filtered")
+
 #seurat_object_list=make_seurat_object_list(star_matrix_list, singler_ref=ref, singler_labels=ref$label.main)
+
 #seurat_object_list=seurat_process_list(seurat_object_list)
 #integrated_seurat_object=integrate_seurat_object_list(seurat_object_list, npcs=30, dims=30)
 ```
 
 ```{r}
-#p1=DimPlot(integrated_seurat_object, reduction = "umap", group.by = "stim")
+#p1=DimPlot(integrated_seurat_object, reduction = "umap"
+           #, group.by = "stim"
+#           )
 #p2=DimPlot(integrated_seurat_object, reduction = "umap", label = TRUE, repel = TRUE)
 #p1 + p2
+#p1
 ```
+
 

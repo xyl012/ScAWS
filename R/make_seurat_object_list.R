@@ -2,6 +2,7 @@
 #' @export
 
 make_seurat_object_list=function(matrix_list, singler_ref, singler_labels){
+  seurat_object_list=list()
   for (i in 1:length(matrix_list)){
     colnames(matrix_list[[i]])=gsub("-1","",colnames(matrix_list[[i]]))
     y=Seurat::CreateSeuratObject(counts = matrix_list[[i]], min.cells = 3) #
@@ -17,7 +18,7 @@ make_seurat_object_list=function(matrix_list, singler_ref, singler_labels){
     y$celltype=pred
     y=Seurat::NormalizeData(y)
     y=Seurat::FindVariableFeatures(y, selection.method = "vst", nfeatures = 2000)
-    seu_list_object[[i]]=y
+    seurat_object_list[[i]]=y
   }
-  return(seu_list_object)
+  return(seurat_object_list)
 }
