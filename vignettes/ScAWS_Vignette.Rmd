@@ -37,6 +37,7 @@ ref=celldex::MonacoImmuneData()
 set.seed(1)
 #Detect number of cores and use future to use parallelized seurat functions
 future::plan("multiprocess", workers = parallel::detectCores())
+
 #Increase globals size as Seurat exceeds max size in common use cases
 options(future.globals.maxSize = 4000 * 1024^2)
 ```
@@ -48,12 +49,12 @@ dirs=list_dirs("~/Desktop/data/")
 npcs=30
 dims=30
 # Filtered or raw UMI counts are located in the STAR directory {sample}/Solo.out/Gene/filtered or {sample}/Solo.out/Gene/raw, respectively.
-star_matrix_list=make_star_matrix_list(dirs, matrix_type = "filtered")
+#star_matrix_list=make_star_matrix_list(dirs, matrix_type = "filtered")
 
-seurat_object_list=make_seurat_object_list(star_matrix_list, singler_ref=ref, singler_labels=ref$label.main)
+#seurat_object_list=make_seurat_object_list(star_matrix_list, singler_ref=ref, singler_labels=ref$label.main)
 
-seurat_object_list=seurat_process_list(seurat_object_list, npcs=npcs, dims=dims)
-integrated_seurat_object=integrate_seurat_object_list(seurat_object_list, npcs=npcs, dims=dims)
+#seurat_object_list=seurat_process_list(seurat_object_list, npcs=npcs, dims=dims)
+#integrated_seurat_object=integrate_seurat_object_list(seurat_object_list, npcs=npcs, dims=dims)
 ```
 
 ```{r}
