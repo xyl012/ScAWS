@@ -4,7 +4,7 @@
 \alias{seurat_process_list}
 \title{Intakes a list of seurat objects and outputs a processed list of seurat objects}
 \usage{
-seurat_process_list(seurat_object_list)
+seurat_process_list(seurat_object_list, npcs, dims)
 }
 \description{
 Intakes a list of seurat objects and outputs a processed list of seurat objects
