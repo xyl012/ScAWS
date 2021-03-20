@@ -31,7 +31,8 @@ Imports:
     patchwork,
     plotly,
     AnnotationHub,
-    spatstat
+    spatstat.core,
+    spatstat.geom
 Suggests: 
     rmarkdown,
     knitr,
