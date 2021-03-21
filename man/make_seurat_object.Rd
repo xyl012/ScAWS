@@ -8,6 +8,7 @@ make_seurat_object(
   star_matrix,
   singler_ref,
   singler_labels,
+  seurat_count_filter = F,
   min_nfeature_rna = 200,
   max_nfeature_rna = 2500,
   min_percent_mt = 5

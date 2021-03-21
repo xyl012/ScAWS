@@ -57,6 +57,9 @@ set.seed(1)
 future::plan("multiprocess", workers = parallel::detectCores())
 # Increase globals size as Seurat exceeds max size in common use cases
 options(future.globals.maxSize = 4000 * 1024^2)
+
+
+
 ```
 
 ```{r}
