@@ -2,8 +2,8 @@
 #' @export
 
 make_seurat_object=function(star_matrix, singler_ref, singler_labels, min_nfeature_rna=200, max_nfeature_rna=2500, min_percent_mt=5){
-  colnames(star_matrix[[i]])=gsub("-1","",colnames(star_matrix[[i]]))
-  y=Seurat::CreateSeuratObject(counts = star_matrix[[i]], min.cells = 3) #
+  colnames(star_matrix)=gsub("-1","",colnames(star_matrix))
+  y=Seurat::CreateSeuratObject(counts = star_matrix, min.cells = 3) #
   sce_y=Seurat::as.SingleCellExperiment(y)
   qcstats=scuttle::perCellQCMetrics(sce_y)
   qcfilter=scuttle::quickPerCellQC(qcstats)
