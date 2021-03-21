@@ -15,7 +15,7 @@ make_seurat_object=function(star_matrix, singler_ref, singler_labels, min_nfeatu
   pred=gsub(" cells","",pred$labels, fixed = T)
   y$celltype=pred
   y[["percent.mt"]] <- Seurat::PercentageFeatureSet(y, pattern = "^MT-")
-  y=Seurat::subset(y, subset = nFeature_RNA > min_nfeature_rna & nFeature_RNA < max_nfeature_rna & percent.mt < min_percent_mt)
+  y=subset(y, subset = nFeature_RNA > min_nfeature_rna & nFeature_RNA < max_nfeature_rna & percent.mt < min_percent_mt)
   y=Seurat::NormalizeData(y)
   y=Seurat::FindVariableFeatures(y, selection.method = "vst", nfeatures = 2000)
   return(y)
