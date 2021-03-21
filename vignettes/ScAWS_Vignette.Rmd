@@ -29,8 +29,8 @@ In this vignette, we have set up the instance, run our setup and generated count
 library(ScAWS)
 # Data specific variables
 # Clinical Variables, must be same length and in the same order as number of sample directories
-COVID=c("Control", "COVID19")
-clinical_variable=clinical_variable_list(COVID)
+clinical_variable=c("Control", "COVID19")
+clinical_variable_name="COVID19"
 
 # Lists sample directories generated with STAR
 data_directory="~/Desktop/data/"
