@@ -1,7 +1,7 @@
 #' Makes a seurat object from a star matrix. Input is from make_star_matrix() and reference is chosen from SingleR references.
 #' @export
 
-make_seurat_object=function(star_matrix, singler_ref, singler_labels, min_nfeature_rna=200, max_nfeature_rna=2500, min_percent_mt=5){
+make_seurat_object=function(star_matrix, singler_ref, singler_labels, seurat_count_filter=F, min_nfeature_rna=200, max_nfeature_rna=2500, min_percent_mt=5){
   colnames(star_matrix)=gsub("-1","",colnames(star_matrix))
   y=Seurat::CreateSeuratObject(counts = star_matrix, min.cells = 3) #
   sce_y=Seurat::as.SingleCellExperiment(y)
@@ -15,7 +15,11 @@ make_seurat_object=function(star_matrix, singler_ref, singler_labels, min_nfeatu
   pred=gsub(" cells","",pred$labels, fixed = T)
   y$celltype=pred
   y[["percent.mt"]] <- Seurat::PercentageFeatureSet(y, pattern = "^MT-")
+  if (seurat_count_filter==T) {
   y=subset(y, subset = nFeature_RNA > min_nfeature_rna & nFeature_RNA < max_nfeature_rna & percent.mt < min_percent_mt)
+  } else {
+    y=y
+  }
   y=Seurat::NormalizeData(y)
   y=Seurat::FindVariableFeatures(y, selection.method = "vst", nfeatures = 2000)
   return(y)
