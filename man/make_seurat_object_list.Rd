@@ -4,7 +4,14 @@
 \alias{make_seurat_object_list}
 \title{Makes a list of seurat objects. Input is from make_star_matrix() and reference is chosen from SingleR references.}
 \usage{
-make_seurat_object_list(matrix_list, singler_ref, singler_labels)
+make_seurat_object_list(
+  matrix_list,
+  singler_ref,
+  singler_labels,
+  min_nfeature_rna = 200,
+  max_nfeature_rna = 2500,
+  min_percent_mt = 5
+)
 }
 \description{
 Makes a list of seurat objects. Input is from make_star_matrix() and reference is chosen from SingleR references.
