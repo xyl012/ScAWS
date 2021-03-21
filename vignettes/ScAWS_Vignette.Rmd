@@ -31,7 +31,6 @@ library(ScAWS)
 # Clinical Variables, must be same length and in the same order as number of sample directories
 clinical_variable=c("Control", "COVID19")
 clinical_variable_name="COVID19"
-
 # Lists sample directories generated with STAR
 data_directory="~/Desktop/data/"
 setwd(data_directory)
