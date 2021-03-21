@@ -32,7 +32,10 @@ Imports:
     plotly,
     AnnotationHub,
     spatstat.core,
-    spatstat.geom
+    spatstat.geom,
+    shiny,
+    shinydashboard,
+    corrplot
 Suggests: 
     rmarkdown,
     knitr,

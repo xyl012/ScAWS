@@ -3,8 +3,9 @@ title: "Single Cell on AWS (ScAWS)"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ScAWS_Vignette}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+runtime: shiny
 ---
 
 #control vs disease condition: paper ppt slide
@@ -26,44 +27,87 @@ In this vignette, we have set up the instance, run our setup and generated count
 ```{r setup}
 #sessionInfo()
 library(ScAWS)
-#Set color palette
+
+# Data specific variables
+# Clinical Variables, must be same length and in the same order as number of sample directories
+COVID=c("Control", "COVID19")
+#clinical_variable_name=variable_name_as_string(COVID)
+
+# Lists sample directories generated with STAR
+data_directory="~/Desktop/data/"
+setwd(data_directory)
+dirs=list_dirs(data_directory)
+#kable("Check these are correct:")
+#d=data.frame(COVID, dirs)
+#print(d)
+
+# Which reference to use, Monaco is a PBMC dataset
+ref=celldex::MonacoImmuneData()
+npcs=30
+dims=30
+
+# Preferences
+# Set color palette
 grey="grey"
 pal=ggpubr::get_palette("npg", k=40)
 grey_pal=c("grey", pal[1])
 bi=pal[c(2,5)]
 
-#Which reference to use, Monaco is a PBMC dataset
-ref=celldex::MonacoImmuneData()
+# System Settings
 set.seed(1)
-#Detect number of cores and use future to use parallelized seurat functions
+# Detect number of cores and use future to use parallelized seurat functions
 future::plan("multiprocess", workers = parallel::detectCores())
-
-#Increase globals size as Seurat exceeds max size in common use cases
+# Increase globals size as Seurat exceeds max size in common use cases
 options(future.globals.maxSize = 4000 * 1024^2)
 ```
 
 ```{r}
-setwd("~/Desktop/data/")
-# Lists sample directories generated with STAR
-dirs=list_dirs("~/Desktop/data/")
-npcs=30
-dims=30
 # Filtered or raw UMI counts are located in the STAR directory {sample}/Solo.out/Gene/filtered or {sample}/Solo.out/Gene/raw, respectively.
-star_matrix_list=make_star_matrix_list(dirs, matrix_type = "filtered")
+#star_matrix_list=make_star_matrix_list(dirs, matrix_type = "filtered")
 
-seurat_object_list=make_seurat_object_list(star_matrix_list, singler_ref=ref, singler_labels=ref$label.main)
+#seurat_object_list=make_seurat_object_list(star_matrix_list, singler_ref=ref, singler_labels=ref$label.main)
 
-seurat_object_list=seurat_process_list(seurat_object_list, npcs=npcs, dims=dims)
-integrated_seurat_object=integrate_seurat_object_list(seurat_object_list, npcs=npcs, dims=dims)
+#seurat_object_list=seurat_process_list(seurat_object_list, npcs=npcs, dims=dims)
+
+#integrated_seurat_object=integrate_seurat_object_list(seurat_object_list, npcs=npcs, dims=dims)
+
+# Add clinical variables
+#integrated_seurat_object <- Seurat::AddMetaData(object = integrated_seurat_object, metadata = clinical_variable, col.name = clinical_variable_name)
 ```
 
+```{r, echo=FALSE}
+header <- shinydashboard::dashboardHeader(title = "Search function")
+
+sidebar <- shinydashboard::dashboardSidebar(
+  shinydashboard::sidebarSearchForm(textId = "searchText", buttonId = "searchButton", 
+                    label = "Search dataset", icon = shiny::icon("search"))
+)
+
+body <- shinydashboard::dashboardBody(shiny::tableOutput("filtered_table"))
+
+ui <- shinydashboard::dashboardPage(title = 'Search', header, sidebar, body)
+
+server <- function(input, output, session) {
+
+      example_data <- data.table::data.table(ID = 1:7, word = c("random", "words", "to", 
+                                                    "test", "the", "search", "function")) 
+
+      output$filtered_table <- renderTable({
+        req(input$searchButton == TRUE)
+        example_data[word %in% input$searchText]
+      })
+    }
+    shiny::shinyApp(ui = ui, server = server)
+```
+
+
 ```{r}
-p1=Seurat::DimPlot(integrated_seurat_object, reduction = "umap"
+#p1=Seurat::DimPlot(integrated_seurat_object, reduction = "umap"
            #, group.by = "stim"
-           )
+#           )
 #p2=DimPlot(integrated_seurat_object, reduction = "umap", label = TRUE, repel = TRUE)
 #p1 + p2
-p1
+#p1
 ```
 
 
