@@ -35,7 +35,8 @@ Imports:
     spatstat.geom,
     shiny,
     shinydashboard,
-    corrplot
+    corrplot,
+    topGO
 Suggests: 
     rmarkdown,
     knitr,

@@ -24,31 +24,35 @@ knitr::opts_chunk$set(
 
 In this vignette, we have set up the instance, run our setup and generated count matrices. We now use 
 
-```{r setup}
+```{r setup, echo=F}
 #sessionInfo()
 library(ScAWS)
+# Filtered or raw UMI counts are located in the STAR directory {sample}/Solo.out/Gene/filtered or {sample}/Solo.out/Gene/raw, respectively.
 # Data specific variables
 # Clinical Variables, must be same length and in the same order as number of sample directories
 clinical_variable=c("Control", "COVID19")
-clinical_variable_name="COVID19"
+clinical_variable_name="COVID19" # What the clinical variable should be named in the Seurat object and graphs
+
 # Lists sample directories generated with STAR
 data_directory="~/Desktop/data/"
 setwd(data_directory)
 dirs=list_dirs(data_directory)
-#kable("Check these are correct:")
-#d=data.frame(COVID, dirs)
-#print(d)
+# kable("Check these are correct:")
+# d=data.frame(COVID, dirs)
+# d
 
-# Which reference to use, Monaco is a PBMC dataset
+# Which reference to use, MonacoImmuneData is a integrated_seurat_object dataset
 ref=celldex::MonacoImmuneData()
 npcs=30
 dims=30
 
 # Preferences
 # Set color palette
-grey="grey"
+grey="gray 88"
+#scales::show_col(ggsci::pal_nejm("default")(8))
 pal=ggpubr::get_palette("npg", k=40)
-grey_pal=c("grey", pal[1])
+pal2=ggpubr::get_palette("nejm", k=40)
+grey_pal=c("gray 88", pal[1])
 bi=pal[c(2,5)]
 
 # System Settings
@@ -57,48 +61,76 @@ set.seed(1)
 future::plan("multiprocess", workers = parallel::detectCores())
 # Increase globals size as Seurat exceeds max size in common use cases
 options(future.globals.maxSize = 4000 * 1024^2)
+ptsize=0.01;res=500;width=5;height=5;augment_plot=T
+```
 
+```{r process, echo=F}
+# # Make list of matrices from STAR output
+# star_matrix_list=make_star_matrix_list(dirs, matrix_type = "filtered")
+# 
+# # Filter, annotate, and scale objects
+# seurat_object_list=make_seurat_object_list(star_matrix_list, singler_ref=ref, singler_labels=ref$label.main)
+# seurat_object_list=seurat_process_list(seurat_object_list, npcs=npcs, dims=dims)
+# 
+# # Add clinical variables to objects
+# seurat_object_list=add_variable_seurat_object_list(clinical_variable, clinical_variable_name, seurat_object_list)
+# 
+# # Integrate seurat objects
+# integrated_seurat_object=integrate_seurat_object_list(seurat_object_list, npcs=npcs, dims=dims)
 
+```
+```{r visualize}
+
+# save(file="~/Desktop/data/integrated.rds", integrated_seurat_object)
+load(file="~/Desktop/data/integrated.rds")
+
+clinical_celltype_umap=Seurat::DimPlot(integrated_seurat_object, split.by="COVID19", group.by="celltype", reduction = "umap", pt.size = ptsize, label = T, label.size = 3, repel=T, cols=pal) + ggplot2::labs(title=ggplot2::element_blank()) + ggsci::scale_color_npg()
+
+clinical_seurat_clusters_umap=Seurat::DimPlot(integrated_seurat_object, split.by="COVID19", group.by="seurat_clusters", reduction = "umap", pt.size = ptsize, label = T, label.size = 3, repel=T, cols=pal) + ggplot2::labs(title=ggplot2::element_blank())
+
+clinical_seurat_clusters_umap
+clinical_celltype_umap
+
+subsetCOVID19=subset(integrated_seurat_object, COVID19=="COVID19")
+subsetControl=subset(integrated_seurat_object, COVID19=="Control")
+
+cor_int=plot_corrplot_celltype(integrated_seurat_object)
+cor_cont=plot_corrplot_celltype(subsetControl)
+cor_cov=plot_corrplot_celltype(subsetCOVID19)
+```
+
+```{r mitochondrial rna}
+# Celltype numbers by state
+# Percent mito
+# TopGO
+Seurat::FeaturePlot(integrated_seurat_object, "PIK3R1")
 
 ```
 
-```{r}
-# Filtered or raw UMI counts are located in the STAR directory {sample}/Solo.out/Gene/filtered or {sample}/Solo.out/Gene/raw, respectively.
-#star_matrix_list=make_star_matrix_list(dirs, matrix_type = "filtered")
-
-#seurat_object_list=make_seurat_object_list(star_matrix_list, singler_ref=ref, singler_labels=ref$label.main)
-
-#seurat_object_list=seurat_process_list(seurat_object_list, npcs=npcs, dims=dims)
-
-#integrated_seurat_object=integrate_seurat_object_list(seurat_object_list, npcs=npcs, dims=dims)
-
-# Add clinical variables
-#integrated_seurat_object <- Seurat::AddMetaData(object = integrated_seurat_object, metadata = clinical_variable, col.name = clinical_variable_name)
-```
 
 ```{r, echo=FALSE}
-header <- shinydashboard::dashboardHeader(title = "Search function")
-
-sidebar <- shinydashboard::dashboardSidebar(
-  shinydashboard::sidebarSearchForm(textId = "searchText", buttonId = "searchButton", 
-                    label = "Search dataset", icon = shiny::icon("search"))
-)
-
-body <- shinydashboard::dashboardBody(shiny::tableOutput("filtered_table"))
-
-ui <- shinydashboard::dashboardPage(title = 'Search', header, sidebar, body)
-
-server <- function(input, output, session) {
-
-      example_data <- data.table::data.table(ID = 1:7, word = c("random", "words", "to", 
-                                                    "test", "the", "search", "function")) 
-
-      output$filtered_table <- renderTable({
-        req(input$searchButton == TRUE)
-        example_data[word %in% input$searchText]
-      })
-    }
-    shiny::shinyApp(ui = ui, server = server)
+# header <- shinydashboard::dashboardHeader(title = "Search function")
+# 
+# sidebar <- shinydashboard::dashboardSidebar(
+#   shinydashboard::sidebarSearchForm(textId = "searchText", buttonId = "searchButton", 
+#                     label = "Search dataset", icon = shiny::icon("search"))
+# )
+# 
+# body <- shinydashboard::dashboardBody(shiny::tableOutput("filtered_table"))
+# 
+# ui <- shinydashboard::dashboardPage(title = 'Search', header, sidebar, body)
+# 
+# server <- function(input, output, session) {
+# 
+#       example_data <- data.table::data.table(ID = 1:7, word = c("random", "words", "to", 
+#                                                     "test", "the", "search", "function")) 
+# 
+#       output$filtered_table <- renderTable({
+#         req(input$searchButton == TRUE)
+#         example_data[word %in% input$searchText]
+#       })
+#     }
+#     shiny::shinyApp(ui = ui, server = server)
 ```
 
 
