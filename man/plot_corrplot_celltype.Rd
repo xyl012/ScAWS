@@ -4,7 +4,7 @@
 \alias{plot_corrplot_celltype}
 \title{Plots a pie chart of percentage cell types in each cell cluster. Input is a seurat object}
 \usage{
-plot_corrplot_celltype(seurat_object)
+plot_corrplot_celltype(seurat_object, col)
 }
 \description{
 Plots a pie chart of percentage cell types in each cell cluster. Input is a seurat object
