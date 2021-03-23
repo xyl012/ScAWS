@@ -92,10 +92,6 @@ ptsize=0.01;res=500;width=5;height=5;labsize1=5;labsize2=4
 ```
 
 ```{r visualize, echo=F, warning=F, message=FALSE, results='hide'}
-
-# library(devtools)
-# install_github("https://github.com/otsukaresamadeshita/ScAWS", auth_token = "89cc546cbff1b2119d1c378b7858a773382c94c5", force = T)
-
 load(file="~/Desktop/data/integrated.rds")
 
 # Make subsets of the integrated object for graphing
