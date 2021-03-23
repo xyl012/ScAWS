@@ -3,7 +3,7 @@
 
 cell_type_per_cluster=function(seurat_object, output="count"){
   celltypes=unique(seurat_object$celltype)
-  clusters=sort(levels(seurat_object$seurat_clusters))
+  clusters=as.integer(levels(seurat_object$seurat_clusters))
   celltype_cluster_list=list()
   for (i in 1:length(clusters)){
     subset=subset(seurat_object, seurat_clusters==clusters[i])

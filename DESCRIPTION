@@ -31,12 +31,18 @@ Imports:
     patchwork,
     plotly,
     AnnotationHub,
+    AnnotationDbi,
     spatstat.core,
     spatstat.geom,
     shiny,
     shinydashboard,
     corrplot,
-    topGO
+    MAST,
+    clusterProfiler,
+    KEGGREST,
+    org.Hs.eg.db,
+    rvest,
+    httr
 Suggests: 
     rmarkdown,
     knitr,
