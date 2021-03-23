@@ -41,6 +41,7 @@ Imports:
     clusterProfiler,
     KEGGREST,
     org.Hs.eg.db,
+    vistime,
     rvest,
     httr
 Suggests: 

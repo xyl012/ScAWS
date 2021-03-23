@@ -7,18 +7,37 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
+My background:
+```{r timeline, out.width = '150%', out.height='150%', echo=F, warning=F, message=FALSE, results='hide'}
+require(vistime)
+data=read.csv(text="event,start,end
+                       B.S. University of Hawaii,2008-01-01,2012-01-01
+                       M.S. University of Hawaii,2012-01-02,2015-01-01
+                       Merck Pharma Internship,2014-01-01,2014-07-01
+                       John A. Burns School of Medicine,2015-01-02,2020-11-01")
+vistime::vistime(data, optimize_y = F, linewidth = 25)
+
+data <- read.csv(text="event,start,end
+                       HPLC,2012-01-02,2015-01-01
+                       LC-MS,2013-01-01,2014-01-01
+                       NGS: Ion Torrent,2015-01-02,2017-01-01
+                       Flow Cytometry Upkeep,2016-01-02,2019-01-01
+                       NGS/Array Analysis: Illumina,2017-01-02,2020-01-01")
+vistime::vistime(data, optimize_y = F, linewidth = 25)
+```
 
 
-
-In this vignette, we analyze a COVID dataset housed on the SRA. We use two samples here, but would only need to change the clinical variable input if more samples were run. As of March 20, the SRA dataset is not associated with a publication.
+In this project we analyze a COVID dataset housed on the SRA. We use two samples here, but would only need to change the clinical variable input if more samples were run. As of March 20, the SRA dataset is not associated with a publication.
 
 Please refer to the hosted vignette or the github:
-[hosted vignette]()
-[github link R package]()
-[github link bash script]()
 
 
-```{r, echo=F, out.width = '125%', out.height='125%'}
+<ul>[hosted vignette]() </ul>
+<ul>[github link R package](https://github.com/otsukaresamadeshita/ScAWS)</ul>
+<ul>[github link bash script](https://github.com/otsukaresamadeshita/ScAWS_Image)</ul>
+
+
+```{r, echo=F, out.width = '150%', out.height='150%'}
 knitr::include_graphics("./GSE166992_shot.png")
 ```
 
@@ -37,6 +56,7 @@ knitr::opts_chunk$set(
 ```{r setup, echo=F, warning=F, message=FALSE, results='hide'}
 #sessionInfo()
 library(ScAWS)
+install_github("https://github.com/otsukaresamadeshita/ScAWS")
 # Filtered or raw UMI counts are located in the STAR directory {sample}/Solo.out/Gene/filtered or {sample}/Solo.out/Gene/raw, respectively.
 # Data specific variables
 # Clinical Variables, must be same length and in the same order as number of sample directories
@@ -109,7 +129,6 @@ clinical_seurat_clusters_umap=Seurat::DimPlot(integrated_seurat_object, split.by
 clinical_seurat_clusters_umap / clinical_celltype_umap
 plot_corrplot_celltype(integrated_seurat_object, col=blend(100))
 
-
 ```
 
 ```{r mitochondrial rna, echo=F, warning=F, message=FALSE, results='hide'}
@@ -146,10 +165,10 @@ annot_de=merge(de_markers, annots, by.x="row.names", by.y="ALIAS") # Use this in
 de_ids=unique(annots$ENTREZID) # Save entrez ids to input into pathway enrichment
 
 # Check for enriched pathways
-enrich=clusterProfiler::enrichKEGG(de_ids, keyType = 'ncbi-geneid')
+enrich=clusterProfiler::enrichKEGG(de_ids, keyType = 'ncbi-geneid', organism = "hsa")
 grep(enrich@result$Description, pattern = "19")
 #enrich@result$Description[10]
-enrich[1:10][1:7]
+knitr::kable(enrich[1:10][1:7])
 
 # # Rerun without mt genes, gives similar results
 # nomt_de_names=de_names[-grep(de_names, pattern = "^MT-")]
