@@ -203,6 +203,7 @@ knitr::kable(enrich[1:10][1:7])
 knitr::include_graphics("./hsa05171.pathview.png")
 ```
 
+## Drug Gene Interaction of DE Genes
 ```{r Drug Gene Interaction of DE Genes}
 require(rDGIdb)
 result <- queryDGIdb(de_names, geneCategories = "CLINICALLY ACTIONABLE")
