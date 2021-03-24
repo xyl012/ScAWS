@@ -7,12 +7,22 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-My background:
-```{r timeline, out.width = '150%', out.height='150%', echo=F, warning=F, message=FALSE, results='hide'}
+```{r, include = FALSE, echo=F, warning=F, message=FALSE, results='hide'}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width=10, fig.height=10, fig.align = 'center'
+)
+```
+\center 
+## My background: 
+\center
+
+```{r timeline, out.width = '150%', out.height='150%', echo=F, warning=F, message=FALSE, fig.show='animate', fig.align = 'center'}
 require(vistime)
 data=read.csv(text="event,start,end
-                       B.S. University of Hawaii,2008-01-01,2012-01-01
-                       M.S. University of Hawaii,2012-01-02,2015-01-01
+                       B.S. Biology University of Hawaii,2008-01-01,2012-01-01
+                       M.S. Molecular University of Hawaii,2012-01-02,2015-01-01
                        Merck Pharma Internship,2014-01-01,2014-07-01
                        John A. Burns School of Medicine,2015-01-02,2020-11-01")
 vistime::vistime(data, optimize_y = F, linewidth = 25)
@@ -26,37 +36,32 @@ data <- read.csv(text="event,start,end
 vistime::vistime(data, optimize_y = F, linewidth = 25)
 ```
 
+\center 
+## The Project 
 
-In this project we analyze a COVID dataset housed on the SRA. We use two samples here, but would only need to change the clinical variable input if more samples were run. As of March 20, the SRA dataset is not associated with a publication.
+### In this project we analyze a COVID dataset housed on the SRA. We use two samples here, but would only need to change the clinical variable input if more samples were run. As of March 20, the SRA dataset is not associated with a publication.
 
-Please refer to the hosted vignette or the github:
+### Please refer to the githubs for source code:
 
-
-<ul>[hosted vignette]() </ul>
 <ul>[github link R package](https://github.com/otsukaresamadeshita/ScAWS)</ul>
 <ul>[github link bash script](https://github.com/otsukaresamadeshita/ScAWS_Image)</ul>
 
+\center
 
 ```{r, echo=F, out.width = '150%', out.height='150%'}
 knitr::include_graphics("./GSE166992_shot.png")
 ```
 
-```{r, echo=F, out.width = '125%', out.height='125%'}
+```{r, echo=F, out.width = '150%', out.height='150%'}
 knitr::include_graphics("./flow.png")
 ```
 
-```{r, include = FALSE, echo=F, warning=F, message=FALSE, results='hide'}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.width=10, fig.height=10
-)
-```
+
 
 ```{r setup, echo=F, warning=F, message=FALSE, results='hide'}
 #sessionInfo()
-library(ScAWS)
-install_github("https://github.com/otsukaresamadeshita/ScAWS")
+#install_github("https://github.com/otsukaresamadeshita/ScAWS")
+require(ScAWS)
 # Filtered or raw UMI counts are located in the STAR directory {sample}/Solo.out/Gene/filtered or {sample}/Solo.out/Gene/raw, respectively.
 # Data specific variables
 # Clinical Variables, must be same length and in the same order as number of sample directories
@@ -149,7 +154,7 @@ mito_vln_COVID19=Seurat::VlnPlot(subset_COVID19, features = c("nFeature_RNA", "n
   title = 'COVID19')
 ```
 
-```{r Differential expression between clusters and celltypes, echo=F, warning=F, message=FALSE}
+```{r Differential expression between clusters and celltypes}
 require(org.Hs.eg.db)
 
 #Find DE markers between control and covid
@@ -180,10 +185,11 @@ knitr::kable(enrich[1:10][1:7])
 # enrichd=clusterProfiler::enrichKEGG(de_ids, organism="hsa", keyType = 'ncbi-geneid')
 # grep(enrichd@result$Description, pattern = "19")
 # enrichd@result$Description[10]
-annot_graph=annot_de[!is.na(annot_de$ENTREZID),] # Remove rows with na in entrezid
 ```
 
 ```{r make pathview figure}
+# annot_graph=annot_de[!is.na(annot_de$ENTREZID),] # Remove rows with na in entrezid
+# 
 # tab <- annot_graph$avg_log2FC
 # names(tab) <- annot_graph$ENTREZID
 # pathview::pathview(gene.data = tab,
@@ -200,12 +206,22 @@ knitr::include_graphics("./hsa05171.pathview.png")
 ```{r Drug Gene Interaction of DE Genes}
 require(rDGIdb)
 result <- queryDGIdb(de_names, geneCategories = "CLINICALLY ACTIONABLE")
-result@resultSummary$Gene["AP1"]
-result@resultSummary$Gene
+length(result@resultSummary$Gene)
+unique(result@resultSummary$Gene)
+knitr::kable(result@resultSummary[which(result@resultSummary$Gene=="JUN"),])
 
 ```
-Early work checking KEGG for a covid19 pathway. The blocks below first check that the coronavirus pathway is available in the r package by getting the http page from KEGG, parsing the page, and inputting the genes into the enrichment test function. It is available (KEGGREST::keggGet("hsa05171")), and we see that there is overlap between the coronavirus pathway with other viral pathways.
+\center
+## Q and A: 
+\center
+```{r crash, echo=F, out.width = '125%', out.height='125%'}
+knitr::include_graphics("./crash.png")
+```
 
+
+\center
+Early work checking KEGG for a covid19 pathway. The blocks below first check that the coronavirus pathway is available in the r package by getting the http page from KEGG, parsing the page, and inputting the genes into the enrichment test function. It is available (KEGGREST::keggGet("hsa05171")), and we see that there is overlap between the coronavirus pathway with other viral pathways.
+\center
 ```{r kegg parser}
 require(httr)
 require(rvest)
