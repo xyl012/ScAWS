@@ -153,6 +153,11 @@ mito_vln_COVID19=Seurat::VlnPlot(subset_COVID19, features = c("nFeature_RNA", "n
 (mito_umap_COVID19/mito_vln_COVID19) + patchwork::plot_annotation(
   title = 'COVID19')
 ```
+\center
+
+## Gene Ontology and Pathway Analysis of Differentially Expressed Genes
+
+\center
 
 ```{r Differential expression between clusters and celltypes}
 require(org.Hs.eg.db)
@@ -202,15 +207,15 @@ knitr::kable(enrich[1:10][1:7])
 ```{r pathview figure}
 knitr::include_graphics("./hsa05171.pathview.png")
 ```
-
+\center
 ## Drug Gene Interaction of DE Genes
+\center
 ```{r Drug Gene Interaction of DE Genes}
 require(rDGIdb)
 result <- queryDGIdb(de_names, geneCategories = "CLINICALLY ACTIONABLE")
 length(result@resultSummary$Gene)
 unique(result@resultSummary$Gene)
 knitr::kable(result@resultSummary[which(result@resultSummary$Gene=="JUN"),])
-
 ```
 \center
 ## Q and A: 
